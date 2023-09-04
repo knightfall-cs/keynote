@@ -63,10 +63,10 @@ if len(sys.argv) == 2:
       print("Available commands:")
       print("  save   / -s  > Save data to a key")
       print("  list   / -ls > List all saved data")
-      print("  delete / -d  > Delete a key and its data")
+      print("  delete / -d  > Delete a key and data")
       print("  load   / -l  > Load and display data")
       print("  run    / -r  > Run a stored script")
-      print("  help   / -h  > Display this help message")
+      print("  help   / -h  > Display help message")
         
     elif command == "load" or command == "-l":
         key = input("Enter the key to load: ")
@@ -76,7 +76,7 @@ if len(sys.argv) == 2:
             print("Key does not exist.")
 
     elif command == "run" or command == "-r":
-        key = input("Enter the key of the script to run: ")
+        key = input("Enter the key to run: ")
         run(data, key)
         
     else:
