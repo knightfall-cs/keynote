@@ -13,7 +13,7 @@ Keynote is a simple command-line tool designed to make it easy to manage and run
 2. Clone or download this repository to your home directory:
    ```
    cd $HOME
-   git clone git clone https://github.com/knightfall-cs/keynote.git
+   git clone https://github.com/knightfall-cs/keynote.git
    ```
 
 
