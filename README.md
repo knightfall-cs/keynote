@@ -28,35 +28,20 @@ cd keynote
 Run Keynote with the desired command:
 
 ```
-python keynote.py [command]
+python3 keynote.py [command]
 ```
 
 ### Available Commands
 
-- **Save Data:** Save a long command for later use.
-  ```
-  python keynote.py save
-  ```
+- **`save` / `-s` :** Save a long command for later use.
 
-- **List Saved Data:** List all saved commands.
-  ```
-  python keynote.py list
-  ```
+- **`list` / `-ls` :** List all saved commands.
 
-- **Load Data:** Load and display a saved command.
-  ```
-  python keynote.py load
-  ```
+- **`load` / `-l` :** Load and display a saved command.
 
-- **Run Script:** Run a previously saved script.
-  ```
-  python keynote.py run
-  ```
+- **`run` / `-r` :** Run a previously saved script.
 
-- **Help:** Display available commands.
-  ```
-  python keynote.py help
-  ```
+- **`help` / `-h` :** Display available commands.
 
 
 ## Alias for Convenience
