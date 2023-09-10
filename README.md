@@ -67,7 +67,7 @@ kn help
 
 ## Customization for Termux
 
-If you're using Termux, you can customize your experience with Keynote even further. Here's how:
+If you're using Termux, you can customize your experience with bash.bashrc file even further. Here's how:
 
 - **Check out the [custom `bash.bashrc` file](https://github.com/knightfall-cs/termux-bashrc) on GitHub.**
 
