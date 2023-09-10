@@ -1,7 +1,4 @@
-import sys
-import json
-import subprocess
-import os
+import sys, json, os
 
 # File to store data
 SAVED_DATA = os.path.join(os.path.expanduser("~"), "keynote", "kn_data.json")
@@ -28,7 +25,12 @@ def run(data, key):
         choice = input("Do you want to run it? (y/n): ").lower()
         if choice == "y":
             try:
-                subprocess.run([script_to_run], shell=True)
+                if script_to_run.startswith("cd "):
+                    directory = script_to_run[3:]
+                    os.chdir(directory)
+                    os.system("$SHELL")
+                else:
+                    os.system(script_to_run)
             except Exception as e:
                 print(f"Error running the script: {e}")
     else:
@@ -63,7 +65,7 @@ if len(sys.argv) == 2:
       print("Available commands:")
       print("  save   / -s  > Save data to a key")
       print("  list   / -ls > List all saved data")
-      print("  delete / -d  > Delete a key and data")
+      print("  delete / -d  > Delete a key and its data")
       print("  load   / -l  > Load and display data")
       print("  run    / -r  > Run a stored script")
       print("  help   / -h  > Display help message")
