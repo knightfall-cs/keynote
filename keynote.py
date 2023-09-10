@@ -1,4 +1,4 @@
-import sys, json, os
+import json, sys, os
 
 # File to store data
 SAVED_DATA = os.path.join(os.path.expanduser("~"), "keynote", "kn_data.json")
