@@ -7,7 +7,7 @@ Keynote is a simple command-line tool designed to make it easy to manage and run
 
 1. Make sure you have Python and Git installed.
    ```
-   apt install git python3
+   sudo apt install git python3
    ```
 
 2. Clone or download this repository to your home directory:
@@ -50,19 +50,19 @@ For added convenience, you can create an alias to use Keynote more easily. Add t
 
 - **For Bash or Zsh (~/.bashrc or ~/.zshrc):**
   ```
-  alias kn="python ~/keynote/keynote.py"
+  alias kn="python3 ~/keynote/keynote.py"
   ```
 
 - **For Termux (../usr/etc/bash.bashrc):**
   ```
-  alias kn="python ~/keynote/keynote.py"
+  alias kn="python3 ~/keynote/keynote.py"
   ```
 
 Make sure to restart your shell or run source ~/.bashrc (or the appropriate config file) to apply the alias.
 
 **Once the alias is applied, you can run Keynote from any directory by typing kn followed by the desired command.**
 ```
-kn help
+kn -h
 ```
 
 ## Customization for Termux
