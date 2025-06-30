@@ -1,1 +1,1 @@
-{"termux backup": "tar -zcf /sdcard/termux-backup.tar.gz -C /data/data/com.termux/files ./home ./usr", "termux restore": "tar -zxf /storage/termux-backup.tar.gz -C /data/data/com.termux/files --recursive-unlink --preserve-permissions"}
+{"termux backup": "tar -zcf /sdcard/termux-backup.tar.gz -C /data/data/com.termux/files ./home ./usr", "termux restore": "tar -zxf ~/storage/shared/termux-backup.tar.gz -C /data/data/com.termux/files --recursive-unlink --preserve-permissions"}
