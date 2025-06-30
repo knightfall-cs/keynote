@@ -41,18 +41,18 @@ if len(sys.argv) == 2:
     command = sys.argv[1]
     data = load(SAVED_DATA)
 
-    if command == "save" or command == "-s":
+    if command == "save" or command == "-s" or command == "s":
         key = input("Enter the key to save: ")
         data[key] = input("Enter data: ")
         save(SAVED_DATA, data)
         print("Data saved!")
 
-    elif command == "list" or command == "-ls":
+    elif command == "list" or command == "-ls" or command == "ls":
         print("Saved data:")
         for key, value in data.items():
             print(f"{key}: {value}\n")
         
-    elif command == "delete" or command == "-d":
+    elif command == "delete" or command == "-d" or command == "d":
         key = input("Enter the key to delete: ")
         if key in data:
             del data[key]
@@ -61,23 +61,23 @@ if len(sys.argv) == 2:
         else:
             print("Key does not exist.")
 
-    elif command == "help" or command == "-h":
+    elif command == "help" or command == "-h" or command == "h":
       print("Available commands:")
-      print("  save   / -s  > Save data to a key")
-      print("  list   / -ls > List all saved data")
-      print("  delete / -d  > Delete a key and its data")
-      print("  load   / -l  > Load and display data")
-      print("  run    / -r  > Run a stored script")
-      print("  help   / -h  > Display help message")
+      print("  save   / -s  / s  > Save data to a key")
+      print("  list   / -ls / ls > List all saved data")
+      print("  delete / -d  / d  > Delete a key and its data")
+      print("  load   / -l  / l  > Load and display data")
+      print("  run    / -r  / r  > Run a stored script")
+      print("  help   / -h  / h  > Display help message")
         
-    elif command == "load" or command == "-l":
+    elif command == "load" or command == "-l" or command == "l":
         key = input("Enter the key to load: ")
         if key in data:
             print(data[key])
         else:
             print("Key does not exist.")
 
-    elif command == "run" or command == "-r":
+    elif command == "run" or command == "-r" or command == "r":
         key = input("Enter the key to run: ")
         run(data, key)
         
