@@ -1,89 +1,144 @@
-import os, sys, json, subprocess
+import os
+import sys
+import json
+import platform
+import subprocess
 
-# File to store data
-SAVED_DATA = os.path.join(os.path.expanduser("~"), "keynote", "kn_data.json")
+KEYNOTE_DIR = os.path.join(os.path.expanduser("~"), "keynote")
+SAVED_DATA = os.path.join(KEYNOTE_DIR, "kn_data.json")
+os.makedirs(KEYNOTE_DIR, exist_ok=True)
 
-# Function to save data to a file
 def save(file, data):
     with open(file, "w") as f:
-        json.dump(data, f)
+        json.dump(data, f, indent=4)
 
-# Function to load data from a file
 def load(file):
     try:
         with open(file, "r") as f:
-            data = json.load(f)
-            return data
+            return json.load(f)
     except FileNotFoundError:
         return {}
 
-# Function to run a stored script
-def run(data, key):
-    if key in data:
-        script_to_run = data[key]
-        print(f"Function: {script_to_run}")
-        choice = input("Do you want to run it? (y/n): ").lower()
-        if choice == "y":
-            try:
-                if script_to_run.startswith("cd ") and " && " not in script_to_run:
-                    directory = script_to_run[3:]
-                    os.chdir(directory)
-                    os.system("$SHELL")
-                else:
-                    subprocess.run([script_to_run], shell=True)
-            except Exception as e:
-                print(f"Error running the script: {e}")
+def open_shell():
+    if platform.system() == "Windows":
+        os.system("powershell")
     else:
-        print("Key does not exist.")
+        os.system(os.environ.get("SHELL", "/bin/bash"))
 
-# Main program
-if len(sys.argv) == 2:
-    command = sys.argv[1]
+def run_script(data, key):
+    if key not in data:
+        print("Key not found.")
+        return
+    script = data[key]
+    print(f"\nScript for '{key}': {script}")
+    confirm = input("Press Enter to run, or type 'n' to cancel: ").strip().lower()
+    if confirm == "n":
+        print("Cancelled.")
+        return
+    try:
+        if script.startswith("cd ") and " && " not in script:
+            os.chdir(script[3:].strip())
+            open_shell()
+        else:
+            subprocess.run(script, shell=True)
+    except Exception as e:
+        print(f"Error: {e}")
+
+def find_data(data, keyword):
+    keyword = keyword.strip().lower()
+    results = {
+        k: v for k, v in data.items()
+        if keyword in k.lower() or keyword in v.lower()
+    }
+    if results:
+        print(f"\nResults for '{keyword}':")
+        for k, v in results.items():
+            print(f"{k}: {v}")
+    else:
+        print("No matches found.")
+
+def show_help():
+    print("""
+Commands:
+  save   / -s  / s   >  Save a new command under a key (prompts for value)
+  list   / -ls / ls  >  List all saved entries
+  delete / -d  / d   >  Delete a saved entry
+  load   / -l  / l   >  Show the value stored under a key
+  run    / -r  / r   >  Run a saved command
+  find   / -f  / f   >  Search entries by word or phrase
+  help   / -h  / h   >  Show this help message
+
+Examples:
+  kn save "deploy prod"
+  kn r deploy prod
+  kn f git push
+""")
+
+def main():
+    if len(sys.argv) < 2:
+        print("Usage: python keynote.py [command]")
+        return
+
+    command = sys.argv[1].lower()
+    args = sys.argv[2:]
     data = load(SAVED_DATA)
 
-    if command == "save" or command == "-s" or command == "s":
-        key = input("Enter the key to save: ")
-        data[key] = input("Enter data: ")
+    if command in ["save", "-s", "s"]:
+        key = " ".join(args).strip() if args else input("Enter key to save: ").strip()
+        if not key:
+            print("Key cannot be empty.")
+            return
+        if key in data:
+            confirm = input(f"'{key}' exists. Overwrite? (y/n): ").lower()
+            if confirm != "y":
+                print("Cancelled.")
+                return
+        value = input("Enter command/script: ").strip()
+        if not value:
+            print("Value cannot be empty.")
+            return
+        data[key] = value
         save(SAVED_DATA, data)
-        print("Data saved!")
+        print(f"Saved: {key}")
 
-    elif command == "list" or command == "-ls" or command == "ls":
-        print("Saved data:")
-        for key, value in data.items():
-            print(f"{key}: {value}\n")
-        
-    elif command == "delete" or command == "-d" or command == "d":
-        key = input("Enter the key to delete: ")
-        if key in data:
-            del data[key]
-            save(SAVED_DATA, data)
-            print("Data deleted!")
+    elif command in ["list", "-ls", "ls"]:
+        if not data:
+            print("No saved data.")
         else:
-            print("Key does not exist.")
+            print("\nSaved entries:\n")
+            for k, v in data.items():
+                print(f"{k}: {v}\n")
 
-    elif command == "help" or command == "-h" or command == "h":
-      print("Available commands:")
-      print("  save   / -s  / s  > Save data to a key")
-      print("  list   / -ls / ls > List all saved data")
-      print("  delete / -d  / d  > Delete a key and its data")
-      print("  load   / -l  / l  > Load and display data")
-      print("  run    / -r  / r  > Run a stored script")
-      print("  help   / -h  / h  > Display help message")
-        
-    elif command == "load" or command == "-l" or command == "l":
-        key = input("Enter the key to load: ")
+    elif command in ["delete", "-d", "d"]:
+        key = " ".join(args).strip() if args else input("Enter key to delete: ").strip()
         if key in data:
-            print(data[key])
+            confirm = input(f"Delete '{key}'? (y/n): ").lower()
+            if confirm == "y":
+                del data[key]
+                save(SAVED_DATA, data)
+                print("Deleted.")
+            else:
+                print("Cancelled.")
         else:
-            print("Key does not exist.")
+            print("Key not found.")
 
-    elif command == "run" or command == "-r" or command == "r":
-        key = input("Enter the key to run: ")
-        run(data, key)
-        
+    elif command in ["load", "-l", "l"]:
+        key = " ".join(args).strip() if args else input("Enter key to load: ").strip()
+        print(data.get(key, "Key not found."))
+
+    elif command in ["run", "-r", "r"]:
+        key = " ".join(args).strip() if args else input("Enter key to run: ").strip()
+        run_script(data, key)
+
+    elif command in ["find", "-f", "f"]:
+        keyword = " ".join(args).strip() if args else input("Enter keyword: ").strip()
+        find_data(data, keyword)
+
+    elif command in ["help", "-h", "h"]:
+        show_help()
+
     else:
-      print("Unknown command.")
-      sys.exit(1)
+        print("Unknown command. Use 'help' to view options.")
 
-else:
-    print("Usage: python keynote.py [command]")
+if __name__ == "__main__":
+    main()
