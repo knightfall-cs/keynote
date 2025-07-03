@@ -6,7 +6,7 @@ It works cross-platform (Linux, macOS, Termux, Windows) and supports structured 
 
 ---
 
-## 🛠 Installation
+##  Installation
 
 1. Install Python and Git (if not already installed):
    ```bash
@@ -21,7 +21,7 @@ It works cross-platform (Linux, macOS, Termux, Windows) and supports structured 
 
 ---
 
-## 🚀 Usage
+##  Usage
 
 Navigate to the project folder:
 ```bash
@@ -33,7 +33,7 @@ Run Keynote:
 python3 keynote.py [command]
 ```
 
-### ✳️ Command Overview
+###  Command Overview
 
 | Command              | Description                                        |
 |----------------------|----------------------------------------------------|
@@ -45,7 +45,7 @@ python3 keynote.py [command]
 | `find` / `-f` / `f`   | Search for a keyword in keys or command content   |
 | `help` / `-h` / `h`   | Show usage and available commands                 |
 
-### 🧪 Examples
+###  Examples
 
 ```bash
 # Save a new key
@@ -70,7 +70,7 @@ kn d docker deploy
 
 ---
 
-## ⚡️ Optional: Add Alias
+##  Optional: Add Alias
 
 To use `kn` globally from any folder, add this to your shell config:
 
@@ -96,7 +96,7 @@ kn save update
 
 ---
 
-## 📁 Termux Customization
+##  Termux Customization
 
 Looking to enhance your Termux terminal experience?  
 Check out: [termux-bashrc by knightfall-cs](https://github.com/knightfall-cs/termux-bashrc)
