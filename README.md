@@ -1,79 +1,109 @@
-# keynote
+# Keynote
 
-Keynote is a simple command-line tool designed to make it easy to manage and run long and complex Linux commands that are hard to remember. With Keynote, you can save, load, and run these commands effortlessly. This tool is especially useful for those working in Linux environments, and it's also compatible with Termux.
+**Keynote** is a lightweight command-line tool for saving and running frequently used or complex terminal commands using easy-to-remember keys. Designed for users who want quick access to their custom workflows without memorizing long commands.
 
+It works cross-platform (Linux, macOS, Termux, Windows) and supports structured storage, interactive confirmations, and convenient aliases.
 
-## Installation
+---
 
-1. Make sure you have Python and Git installed.
-   ```
+## 🛠 Installation
+
+1. Install Python and Git (if not already installed):
+   ```bash
    sudo apt install git python3
    ```
 
-2. Clone or download this repository to your home directory:
-   ```
+2. Clone the repository to your home directory:
+   ```bash
    cd $HOME
    git clone https://github.com/knightfall-cs/keynote.git
    ```
 
+---
 
-## Usage
+## 🚀 Usage
 
-Navigate to the Keynote directory:
-
+Navigate to the project folder:
+```bash
+cd ~/keynote
 ```
-cd keynote
-```
 
-Run Keynote with the desired command:
-
-```
+Run Keynote:
+```bash
 python3 keynote.py [command]
 ```
 
-### Available Commands
+### ✳️ Command Overview
 
-- **`save` / `-s` :** Save a long command for later use.
+| Command              | Description                                        |
+|----------------------|----------------------------------------------------|
+| `save` / `-s` / `s`   | Save a key with an associated command (prompts for value) |
+| `run` / `-r` / `r`    | Execute the command saved under a key             |
+| `list` / `-ls` / `ls` | Show all saved entries                            |
+| `load` / `-l` / `l`   | Display the command stored under a specific key   |
+| `delete` / `-d` / `d` | Remove a saved entry (with confirmation)          |
+| `find` / `-f` / `f`   | Search for a keyword in keys or command content   |
+| `help` / `-h` / `h`   | Show usage and available commands                 |
 
-- **`list` / `-ls` :** List all saved commands.
+### 🧪 Examples
 
-- **`load` / `-l` :** Load and display a saved command.
+```bash
+# Save a new key
+kn save "docker deploy"
+# → prompts for the actual command to save
 
-- **`run` / `-r` :** Run a previously saved script.
+# Run a saved command
+kn r docker deploy
 
-- **`help` / `-h` :** Display available commands.
+# Show all entries
+kn list
 
+# Search for keywords
+kn f ssh
 
-## Alias for Convenience
+# Load/display a saved command
+kn l docker deploy
 
-For added convenience, you can create an alias to use Keynote more easily. Add the following line to your shell configuration file, depending on your shell of choice:
-
-- **For Bash or Zsh (~/.bashrc or ~/.zshrc):**
-  ```
-  alias kn="python3 ~/keynote/keynote.py"
-  ```
-
-- **For Termux (../usr/etc/bash.bashrc):**
-  ```
-  alias kn="python3 ~/keynote/keynote.py"
-  ```
-
-Make sure to restart your shell or run source ~/.bashrc (or the appropriate config file) to apply the alias.
-
-**Once the alias is applied, you can run Keynote from any directory by typing kn followed by the desired command.**
+# Delete an entry
+kn d docker deploy
 ```
-kn -h
-```
-
-## Customization for Termux
-
-If you're using Termux, you can customize your experience with bash.bashrc file even further. Here's how:
-
-- **Check out the [custom `bash.bashrc` file](https://github.com/knightfall-cs/termux-bashrc) on GitHub.**
-
-- **Follow the instructions provided in the repository to customize your `bash.bashrc` file to your liking.**
-
 
 ---
 
-Author: KNIGHTFALL
+## ⚡️ Optional: Add Alias
+
+To use `kn` globally from any folder, add this to your shell config:
+
+### For Bash or Zsh:
+```bash
+echo 'alias kn="python3 ~/keynote/keynote.py"' >> ~/.bashrc
+# or for Zsh:
+echo 'alias kn="python3 ~/keynote/keynote.py"' >> ~/.zshrc
+source ~/.bashrc  # or
+source ~/.zshrc
+```
+
+### For Termux:
+```bash
+echo 'alias kn="python3 ~/keynote/keynote.py"' >> ~/.bashrc
+termux-reload-settings
+```
+
+Once done, you can run:
+```bash
+kn save update
+```
+
+---
+
+## 📁 Termux Customization
+
+Looking to enhance your Termux terminal experience?  
+Check out: [termux-bashrc by knightfall-cs](https://github.com/knightfall-cs/termux-bashrc)
+
+---
+
+## 👤 Author
+
+**KNIGHTFALL**  
+[GitHub: knightfall-cs](https://github.com/knightfall-cs)
