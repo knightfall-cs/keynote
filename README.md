@@ -1,109 +1,121 @@
 # Keynote
 
-**Keynote** is a lightweight command-line tool for saving and running frequently used or complex terminal commands using easy-to-remember keys. Designed for users who want quick access to their custom workflows without memorizing long commands.
+**Keynote** is a lightweight command-line tool for saving, organizing, and executing frequently used terminal commands. Built with the Python standard library (zero external dependencies).
 
-It works cross-platform (Linux, macOS, Termux, Windows) and supports structured storage, interactive confirmations, and convenient aliases.
-
----
-
-##  Installation
-
-1. Install Python and Git (if not already installed):
-   ```bash
-   sudo apt install git python3
-   ```
-
-2. Clone the repository to your home directory:
-   ```bash
-   cd $HOME
-   git clone https://github.com/knightfall-cs/keynote.git
-   ```
+Runs on **Linux**, **macOS**, **Termux**, and **Windows**.
 
 ---
 
-##  Usage
+## Installation
 
-Navigate to the project folder:
+### Via `pipx` (Recommended)
 ```bash
-cd ~/keynote
+git clone https://github.com/knightfall-cs/keynote.git
+cd keynote
+pipx install .
+```
+This makes `kn` available globally.
+
+### Via Shell Alias (Termux / Lightweight)
+```bash
+cd ~
+git clone https://github.com/knightfall-cs/keynote.git
+echo 'alias kn="python3 ~/keynote/keynote.py"' >> ~/.bashrc
+source ~/.bashrc
 ```
 
-Run Keynote:
+---
+
+## Commands
+
+| Command | Alias | Description |
+| :--- | :--- | :--- |
+| `save [key] [cmd]` | `s` | Save a command (`-d` description, `-t` tags) |
+| `run [key] [args...]` | `r` | Run a saved command (`-y` auto-confirm, `-n` dry-run, `-c` copy) |
+| `list` | `ls` | Display saved commands table (`-t` filter tag, `-s` sort) |
+| `find [term]` | `f` | Search commands, keys, tags, and descriptions |
+| `copy [key] [args...]`| `c` | Copy resolved command to clipboard |
+| `load [key]` | `l`, `show` | Inspect full details of a saved command |
+| `delete [key]` | `d`, `rm` | Delete a command snippet (`-y` skip prompt) |
+| `export [file]` | — | Export all commands to JSON |
+| `import [file]` | — | Import commands from JSON |
+| `completion [shell]`| — | Generate shell autocompletion (`bash` or `zsh`) |
+
+---
+
+## Examples
+
+### 1. Save commands
 ```bash
-python3 keynote.py [command]
+# Basic command
+kn save update "sudo apt update && sudo apt upgrade -y"
+
+# With tags and description
+kn save deploy "docker compose up -d" -t docker prod -d "Start production services"
+
+# With dynamic placeholders
+kn save git-commit "git commit -m '<message>'"
+kn save docker-logs "docker logs -f <container> --tail <lines:100>"
 ```
 
-###  Command Overview
-
-| Command              | Description                                        |
-|----------------------|----------------------------------------------------|
-| `save` / `-s` / `s`   | Save a key with an associated command (prompts for value) |
-| `run` / `-r` / `r`    | Execute the command saved under a key             |
-| `list` / `-ls` / `ls` | Show all saved entries                            |
-| `load` / `-l` / `l`   | Display the command stored under a specific key   |
-| `delete` / `-d` / `d` | Remove a saved entry (with confirmation)          |
-| `find` / `-f` / `f`   | Search for a keyword in keys or command content   |
-| `help` / `-h` / `h`   | Show usage and available commands                 |
-
-###  Examples
-
+### 2. Run commands
 ```bash
-# Save a new key
-kn save "docker deploy"
-# → prompts for the actual command to save
+# Run with confirmation prompt
+kn run deploy
 
-# Run a saved command
-kn r docker deploy
+# Skip confirmation (-y)
+kn run update -y
 
-# Show all entries
+# Pass placeholder values
+kn run git-commit "fix header layout"
+kn run docker-logs container=api lines=50
+
+# Preview without running (-n)
+kn run deploy -n
+```
+
+### 3. List & Search
+```bash
+# View all saved commands
 kn list
 
-# Search for keywords
-kn f ssh
+# Filter by tag or sort by popularity
+kn list -t docker
+kn list --sort popular
 
-# Load/display a saved command
-kn l docker deploy
+# Search keyword
+kn find docker
+```
 
-# Delete an entry
-kn d docker deploy
+### 4. Copy to clipboard
+```bash
+kn copy deploy
+kn c git-commit "feat: add user auth"
 ```
 
 ---
 
-##  Optional: Add Alias
+## Shell Autocompletion
 
-To use `kn` globally from any folder, add this to your shell config:
+Enable Tab-completion for command keys:
 
-### For Bash or Zsh:
 ```bash
-echo 'alias kn="python3 ~/keynote/keynote.py"' >> ~/.bashrc
-# or for Zsh:
-echo 'alias kn="python3 ~/keynote/keynote.py"' >> ~/.zshrc
-source ~/.bashrc  # or
-source ~/.zshrc
-```
+# For Bash
+echo 'source <(kn completion bash)' >> ~/.bashrc
 
-### For Termux:
-```bash
-echo 'alias kn="python3 ~/keynote/keynote.py"' >> ~/.bashrc
-termux-reload-settings
-```
-
-Once done, you can run:
-```bash
-kn save update
+# For Zsh
+echo 'source <(kn completion zsh)' >> ~/.zshrc
 ```
 
 ---
 
-##  Termux Customization
+## Configuration
 
-Looking to enhance your Termux terminal experience?  
-Check out: [termux-bashrc by knightfall-cs](https://github.com/knightfall-cs/termux-bashrc)
+Commands are stored in `~/.config/keynote/kn_data.json` (or `%APPDATA%\keynote\kn_data.json` on Windows).  
+Override path with `export KEYNOTE_DATA_FILE="/path/to/custom.json"`.
 
 ---
 
-## 👤 Author
+## Author
 
-**KNIGHTFALL**  
-[GitHub: knightfall-cs](https://github.com/knightfall-cs)
+[**KNIGHTFALL**](https://github.com/knightfall-cs)

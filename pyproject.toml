@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "keynote-cli"
+version = "2.0.0"
+description = "A lightweight, modern command-line tool for saving and executing terminal commands."
+readme = "README.md"
+authors = [
+    { name = "KNIGHTFALL", email = "knightfall-cs@users.noreply.github.com" }
+]
+license = { text = "MIT" }
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Utilities",
+]
+keywords = ["cli", "terminal", "shortcuts", "productivity", "command-runner", "snippets"]
+requires-python = ">=3.8"
+dependencies = []
+
+[project.scripts]
+kn = "keynote:main"
+keynote = "keynote:main"
+
+[project.urls]
+Homepage = "https://github.com/knightfall-cs/keynote"
+Repository = "https://github.com/knightfall-cs/keynote.git"
